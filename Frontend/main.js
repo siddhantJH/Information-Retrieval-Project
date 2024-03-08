@@ -1,15 +1,24 @@
 let i = 0;
 let txt = "";
-let speed = 70;
+let txt2= ""
+let speed = 500;
 
 function getText() {
     recordHistory();
     i = 0;
     txt = document.querySelector("#userInput").value;
+    txt2 = getResult() // once the get result function is declared we will use this in the typeWrite function
     speed = 70;
     typeWriter();
     // txt.value=""; // This line is unnecessary and can be removed
 }
+
+
+function getResult()
+{
+//we get the result from the back end and we assign it to the txt and finllay display it ccording to the user format 
+}
+
 
 function typeWriter() {
      // Call recordHistory function to record user input history

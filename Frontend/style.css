@@ -53,7 +53,7 @@ body {
 }
 
 .history {
-  background-color: #fafafa;
+  background-color:  #f7d794 ;
   
   /* padding: 20px;  */
   /* border-radius: 10px;  */
@@ -75,7 +75,7 @@ h3{
 
 .input-box {
   display: flex;
-  padding: 10px;
+  padding: 15px;
   border-top: 1px solid #ccc;
   
 }
