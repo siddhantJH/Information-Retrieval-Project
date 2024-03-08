@@ -27,7 +27,7 @@ function typeWriter() {
         if (i % 52 == 0) {
             d.innerHTML += "<br>";
         }
-        if (txt.charAt(i) == " ") {
+        if (txt.charAt(i) ==" ") {
             console.log(txt.charAt(i));
             d.textContent += " ";
         }
