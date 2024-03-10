@@ -1,8 +1,4 @@
-# Information-Retrieval-Certainly! Here's a README tailored to your project:
-
----
-
-# Sports History and Records Archives Chatbot
+### Sports History and Records Archives information Retrieval system
 
 ## Introduction
 
@@ -46,14 +42,11 @@ The system generates actionable insights for machine learning by evaluating user
 6. Machine learning models continuously update the query parameters based on user feedback.
 7. The system retrieves updated results based on the modified query and presents them to the user.
 
-## Contributors
+## AUTHORS
 
-This project is maintained by [Your Name]. Contributions and feedback are welcome!
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to customize this README to include specific details about your implementation and project goals. Good luck with your Sports History and Records Archives Chatbot!
+# VANSHAJ SHARMA(MT23103)
+# BHARAT NAGDEV (MT23029)
+# PULKIT RIHANI (MT23066)	
+# SIDDHANT JHA (MT23097)				
+# LOKESH SAINI (MT23120)
+# RITESH RAJPUT (MT23075)
