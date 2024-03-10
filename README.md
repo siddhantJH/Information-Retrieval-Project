@@ -6,7 +6,7 @@ Welcome to the Sports History and Records Archives Chatbot! This system leverage
 
 ## Background/Motivation
 
-The evolution of sports has been an incredible journey, especially in India. In today's growing era, sports history, records, and memorable moments hold a vital position in human society, shaping our history. However, there is currently no centralized platform or chatbot to access this wealth of information. This project aims to fill that gap by providing an efficient and optimized information retrieval system for sports events, history, records, and memorable moments.
+The evolution of sports has been an incredible journey, especially in India. In today's growing era, sports history, records, and memorable moments hold a vital position in human society, shaping our history. However, there is currently no centralized platform or chatbot to access this wealth of information. This project aims to fill that gap by providing an efficient and optimized information retrieval system for sports events, history, records, and memorable moments
 
 ## Existing Work
 
