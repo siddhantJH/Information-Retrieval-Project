@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.allinone{
+  display: grid;
+  margin: 0;
+  grid-template-columns: 1fr 3.5fr;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box {
+  height: 81.75vh;
+  display: grid;
+  padding: 40px;
+  overflow-y: auto;
+  overflow: hidden; /* Disable scrolling */
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+}
+
+.message {
+  background-color: #dbf3c4;
+  color: #333;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 0%;
+}
+
+.demo {
+  height: auto; /* Change this to the desired height */
+  max-width: 900px; /* Set your desired maximum width */
+  word-wrap: break-word; /* Allow content to wrap within the specified width */
+  overflow-y: auto; /* Add vertical scroll if content exceeds the height */
+  max-height: auto; /* Limit the maximum height */
+}
+
+.user-message {
+  background-color: #c7ecee;
+  color: #333;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  align-self: flex-end;
+}
+
+.history {
+  background-color:  #f7d794 ;
+  
+  /* padding: 20px;  */
+  /* border-radius: 10px;  */
+}
+
+
+h3{
+  overflow-y: auto; 
+}
+.history h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10; /* Remove default margin for the headin */
+  font-size: 15px; /* Adjust font size as needed */
+  color: #333; /* Change text color */
+  text-align: center; /* Center align the heading */
+  margin-bottom: 20px; /* Add some space below the heading */
+}
+
+
+.input-box {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #ccc;
+  
+}
+
+.input-box input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.smooth-border {
+  border: 1px solid #ddd; /* Border color and width */
+  border-radius: 10px; /* Adjust the value to control the curvature */
+  padding: 10px; /* Optional: Add padding for better visual */
+  transition: all 0.2s ease; /* Smooth transition effect */
+
+  /* Add box-shadow for a smoother look */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.smooth-border:hover {
+  border-color: #333; /* Change border color on hover */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+.delete-btn {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 40px;
+  background-color: transparent; /* Ensure button has a transparent background */
+}
+
+.delete-btn:hover {
+  color: red; /* Change color on hover to red, adjust as needed */
+}
+.input-box button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.input-box button:hover {
+  background-color: #45a049;
+}
