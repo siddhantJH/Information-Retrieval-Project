@@ -6,7 +6,7 @@ def chatbot(request):
 
     if request.method == 'POST':
         message = request.POST.get('message')
-        #response = ask_openai(message)
+        #response = "Hi"
         response = llm.ask_Query(message)
         #chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
         #chat.save()
