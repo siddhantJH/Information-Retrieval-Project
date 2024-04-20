@@ -1,23 +1,22 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { URL } = require('url'); // for URL validation
 
-const baseDirectory = '/workspaces/Information-Retrieval-Project/Collected pages';
+const baseDirectory = '/workspaces/Information-Retrieval-Project/CollectedPages';
 let folderCounter = 1; // Counter for naming folders
 
-// Function to fetch web page content
 async function fetchPage(url) {
     try {
         const response = await axios.get(url);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching page: ${error}`);
+        console.error(`Error fetching page: ${error.message}`);
         return null;
     }
 }
 
-// Function to parse HTML content and extract links and content
 function parseHTML(html) {
     const $ = cheerio.load(html);
     const links = [];
@@ -25,36 +24,36 @@ function parseHTML(html) {
     $('a').each((index, element) => {
         const href = $(element).attr('href');
         if (href) {
-            // Exclude links to images and videos
-            if (!isImage(href) && !isVideo(href)) {
-                links.push(href);
+            try {
+                const absoluteUrl = new URL(href, url).toString(); // Normalize URL
+                if (!isImage(absoluteUrl) && !isVideo(absoluteUrl)) {
+                    links.push(absoluteUrl);
+                }
+            } catch (error) {
+                console.error(`Invalid URL: ${href}`);
             }
         }
     });
     return { links, content };
 }
 
-// Function to check if a link is an image
 function isImage(link) {
     return /\.(jpg|jpeg|png|gif)$/i.test(link);
 }
 
-// Function to check if a link is a video
 function isVideo(link) {
     return /\.(mp4|avi|mov|wmv)$/i.test(link);
 }
 
-// Function to create folder and files for data and links
-function createFolderAndFiles() {
-    const folderName = `fol${folderCounter++}`;
+async function createFolderAndFiles() {
+    const folderName = `folder${folderCounter++}`;
     const folderPath = path.join(baseDirectory, folderName);
-    fs.mkdirSync(folderPath, { recursive: true });
-    fs.writeFileSync(path.join(folderPath, 'data.txt'), '', 'utf-8');
-    fs.writeFileSync(path.join(folderPath, 'links.txt'), '', 'utf-8');
+    await fs.mkdir(folderPath, { recursive: true });
+    await fs.writeFile(path.join(folderPath, 'data.txt'), '', 'utf-8');
+    await fs.writeFile(path.join(folderPath, 'links.txt'), '', 'utf-8');
     return folderPath;
 }
 
-// Function to crawl a webpage and its links recursively
 async function crawl(url, depth, visited = new Set()) {
     if (depth === 0 || visited.has(url)) {
         return;
@@ -68,28 +67,27 @@ async function crawl(url, depth, visited = new Set()) {
     }
     
     const { links, content } = parseHTML(html);
-    const folderPath = createFolderAndFiles();
+    const folderPath = await createFolderAndFiles();
     
-    // Save content to data.txt
-    fs.writeFileSync(path.join(folderPath, 'data.txt'), content, 'utf-8'); // Save only the text content
-    
-    // Save links to links.txt
-    fs.writeFileSync(path.join(folderPath, 'links.txt'), url, 'utf-8');
-    
+    try {
+        await fs.writeFile(path.join(folderPath, 'data.txt'), content, 'utf-8');
+        await fs.appendFile(path.join(folderPath, 'links.txt'), `${url}\n`, 'utf-8');
+    } catch (error) {
+        console.error(`Error writing file: ${error.message}`);
+    }
+
     for (const link of links) {
         await crawl(link, depth - 1, visited);
     }
 }
 
-// Array of starting URLs
 const startingUrls = [
     'https://www.cricbuzz.com/cricket-news'
 ];
 
-// Depth to crawl
 const depth = 10;
 
-// Start crawling for each starting URL
 for (const startingUrl of startingUrls) {
     crawl(startingUrl, depth);
 }
+
