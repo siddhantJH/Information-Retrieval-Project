@@ -1,0 +1,59 @@
+import http.server
+import socketserver
+from urllib.parse import urlparse, urlunparse
+import requests
+
+class Proxy(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        # URL of the target server you want to forward requests to
+        target_url = "http://example.com"
+
+        # Parse the original request URL and prepare a new URL
+        url_parts = list(urlparse(self.path))
+        url_parts[0] = urlparse(target_url).scheme
+        url_parts[1] = urlparse(target_url).netloc
+        url_parts[2] = self.path
+        new_url = urlunparse(url_parts)
+
+        # Forward the request to the target server
+        resp = requests.get(new_url, headers=self.headers)
+
+        # Send response status code
+        self.send_response(resp.status_code)
+
+        # Send headers to the client
+        for key, value in resp.headers.items():
+            self.send_header(key, value)
+        self.end_headers()
+
+        # Send the response content to the client
+        self.wfile.write(resp.content)
+
+    def do_POST(self):
+        # Similar logic to GET can be used here for POST requests
+        content_length = int(self.headers['Content-Length']) # Gets the size of data
+        post_data = self.rfile.read(content_length) # Gets the data itself
+
+        target_url = "http://example.com" + self.path
+
+        # Forward the request to the target server
+        resp = requests.post(target_url, headers=self.headers, data=post_data)
+
+        # Send response status code
+        self.send_response(resp.status_code)
+
+        # Send headers to the client
+        for key, value in resp.headers.items():
+            self.send_header(key, value)
+        self.end_headers()
+
+        # Send the response content to the client
+        self.wfile.write(resp.content)
+
+# Server settings
+PORT = 8080
+handler = Proxy
+
+with socketserver.TCPServer(("", PORT), handler) as httpd:
+    print(f"Serving at port {PORT}")
+    httpd.serve_forever()
