@@ -128,7 +128,13 @@
     messagesList.appendChild(messageItem);
 
     messageInput.value = '';
-    
+    showResponse(message)
+    document.querySelector(".regenerate").addEventListener('click', function(){
+      showResponse(message);
+  });
+  });
+
+  function showResponse(message){
     fetch('', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -149,11 +155,13 @@
             </div>
             <div class="message-content">
                 ${response}
+                <button class="regenerate">👍</button>
+                <button>👎</button>
             </div>
         </div>
           `;
         messagesList.appendChild(messageItem);
       });
-  });
+  }
 </script>
 {% endblock %}
