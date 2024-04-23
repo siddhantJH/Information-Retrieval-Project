@@ -38,6 +38,7 @@ GeminiEmbeddingModel = GoogleGenerativeAIEmbeddings(model="models/embedding-001"
 
 #******************************** Preparing data ********************************
 df = pd.read_csv('cricket_football_preprocessed.csv')
+df['content'] = df['content'].apply(lambda x: x.lower() if isinstance(x, str) else x)
 headingsList = df["content"].tolist()
 tokenized_corpus = [doc.split(" ") for doc in headingsList]
 
@@ -60,14 +61,15 @@ document_retrieval_chain = create_stuff_documents_chain(Gemini_pro_llm, prompt)
 
 
 def ask_Query(query):
+    query = query.lower()
     tokenized_query = query.split(" ")
     # doc_scores = bm25.get_scores(tokenized_query)
 
-    a = bm25.get_top_n(tokenized_query, headingsList, n=2)
+    a = bm25.get_top_n(tokenized_query, headingsList, n=10)
     # a[0] = "Sport as a Symbol of National Power" # hardcoded
     # resultContent = df.loc[df['Summary'] == a[0], 'content'].iloc[0]
     doc = ""
-    for i in range(2):
+    for i in range(10):
         doc = doc + a[i] + '. '
     resultContent = doc
 
