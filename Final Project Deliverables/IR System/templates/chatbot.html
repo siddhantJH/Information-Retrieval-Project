@@ -118,6 +118,19 @@
   </form>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Thank you for your feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
@@ -163,7 +176,7 @@
     })
       .then(response => response.json())
       .then(data => {
-        let pre_processed_message = message.replace(/'/g, '');
+        //let pre_processed_message = message.replace(/'/g, '');
         const response = data.response;
         const messageItem = document.createElement('li');
         messageItem.classList.add('message', 'received');
@@ -174,8 +187,8 @@
           </div>
           <div class="message-content">
               ${response}
-              <button class="good-result" onclick='re_generate("${pre_processed_message}")'>👍</button>
-              <button class="bad-result" onclick='re_generate("${pre_processed_message}")'>👎</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">👍</button>
+              <button class="btn btn-dark" onclick='re_generate("${message}")'>👎</button>
           </div>
       </div>
           `;
