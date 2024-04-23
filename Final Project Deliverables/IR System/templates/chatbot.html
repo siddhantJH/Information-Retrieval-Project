@@ -2,73 +2,92 @@
 
 {% block styles %}
 <style>
-    body, html {
-      height: 100%;
-      background-color: #f2f2f2;
-    }
+  body, html {
+    height: 100%;
+    background-color: #e0f7fa; /* Light Cyan */
+  }
 
-    .messages-box {
-      flex: 1;
-      overflow-y: auto;
-    }
+  .messages-box {
+    flex: 1;
+    overflow-y: auto;
+  }
 
-    .messages-list {
-      padding-left: 0;
-    }
+  .messages-list {
+    padding-left: 0;
+  }
 
-    .message {
-      margin-bottom: 15px;
-      list-style: none;
-    }
+  .message {
+    margin-bottom: 30px;
+    list-style: none;
+  }
 
-    .message-text {
-      padding: 10px;
-      border-radius: 5px;
-    }
+  .message-text {
+    padding: 10px;
+    border-radius: 100px;
+  }
 
-    .sent {
-      background-color: #dcf8c6;
-      align-self: flex-end;
-    }
+  .sent {
+    background-color: #a7ffeb; /* Seafoam Green */
+    border-radius: 10px;
+    align-self: flex-end;
+  }
 
-    .received {
-      background-color: #f1f0f0;
-      align-self: flex-start;
-    }
+  .received {
+    background-color: #b2ebf2; /* Light Blue */
+    border-radius: 10px;
+    align-self: flex-start;
+  }
 
-    .message-form {
-      display: flex;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 10px;
-      background-color: #f8f9fa;
-    }
+  .message-form {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #3949ab; /* Blue */
+  }
 
-    .message-input {
-      flex: 1;
-      border-radius: 0;
-      border-right: none;
-    }
+  .message-input {
+    flex: 1;
+    border-radius: 5px;
+    border-right: none;
+  }
 
-    .btn-send {
-      border-radius: 0;
-    }
+  .btn-send {
+    border-radius: 5px;
+  }
 
-    .chat-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-  </style>
+  .chat-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .card-body{
+    background-color: #e0f7fa; 
+    background-image: url('https://png.pngtree.com/background/20230512/original/pngtree-sport-background-picture-image_2502918.jpg'); 
+    background-size: cover; 
+    background-position: center;
+  }
+  .card-header {
+    background-color: #3949ab; /* Blue */
+    color: #fff; /* White text color */
+    font-size: 1.5rem; /* Adjust font size */
+    font-weight: bold; /* Make text bold */
+    text-align: center; /* Center text */
+    padding: 10px 0; /* Add padding */
+  }
+</style>
+
+
 {% endblock %}
 
 
 {% block content %}
 <div class="chat-container">
   <div class="card flex-grow-1">
-    <div class="card-header bg-primary text-white">Chat</div>
+    <div class="card-header ">SPORTS HISTORY</div>
     <div class="card-body messages-box">
       
       <ul class="list-unstyled messages-list">
@@ -76,7 +95,7 @@
         <li class="message received">
           <div class="message-text">
             <div class="message-sender">
-              <b>AI Chatbot</b>
+              <b>Sports Chatbot</b>
             </div>
             <div class="message-content">
               SPORTS HISTORY CHAT BOT
@@ -86,9 +105,7 @@
       </ul>
       
     </div>
-    <br><br>
-    <br><br>
-    <br><br>
+    
   </div>
   <form class="message-form">
     {%csrf_token%}
@@ -105,12 +122,15 @@
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
   const messageInput = document.querySelector('.message-input');
+  const sendButton = document.querySelector('.btn-send'); 
 
   messageForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    sendButton.disabled = true;
 
     const message = messageInput.value.trim();
     if (message.length === 0) {
+      sendButton.disabled = false;
       return;
     }
 
@@ -128,13 +148,11 @@
     messagesList.appendChild(messageItem);
 
     messageInput.value = '';
-    showResponse(message)
-    document.querySelector(".regenerate").addEventListener('click', function(){
-      showResponse(message);
-  });
+    generate_response(message)
+   
   });
 
-  function showResponse(message){
+  function generate_response(message){
     fetch('', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -145,22 +163,51 @@
     })
       .then(response => response.json())
       .then(data => {
+        let pre_processed_message = message.replace(/'/g, '');
         const response = data.response;
         const messageItem = document.createElement('li');
         messageItem.classList.add('message', 'received');
         messageItem.innerHTML = `
         <div class="message-text">
-            <div class="message-sender">
+          <div class="message-sender">
               <b>AI Chatbot</b>
-            </div>
-            <div class="message-content">
-                ${response}
-                <button class="regenerate">👍</button>
-                <button>👎</button>
-            </div>
-        </div>
+          </div>
+          <div class="message-content">
+              ${response}
+              <button class="good-result" onclick='re_generate("${pre_processed_message}")'>👍</button>
+              <button class="bad-result" onclick='re_generate("${pre_processed_message}")'>👎</button>
+          </div>
+      </div>
           `;
         messagesList.appendChild(messageItem);
+        sendButton.disabled = false;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Re-enable the send button in case of an error
+        sendButton.disabled = false;
+      });
+  }
+
+
+  function re_generate(message){
+    fetch('paraphrase', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'message': message
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        const response = data.response;
+        generate_response(response)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Re-enable the send button in case of an error
+        sendButton.disabled = false;
       });
   }
 </script>

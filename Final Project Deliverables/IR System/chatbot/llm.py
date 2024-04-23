@@ -37,20 +37,21 @@ Gemini_pro_llm = ChatGoogleGenerativeAI(model="gemini-pro",
 GeminiEmbeddingModel = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_api_key="AIzaSyBSaMUOmN4usfGXD9PT7OmDcCFCa9WvBMc")
 
 #******************************** Preparing data ********************************
-df = pd.read_csv('football_data_with_summary_V2.0.csv')
+df = pd.read_csv('cricket_football_preprocessed.csv')
 headingsList = df["content"].tolist()
 tokenized_corpus = [doc.split(" ") for doc in headingsList]
 
 bm25 = BM25Okapi(tokenized_corpus)
 # Explain about the following Topic in depth using the provided context and your knowledge
 #****************************** Prompt creation **********************************
-prompt = ChatPromptTemplate.from_template("""Explain about the following Question in depth:
+prompt = ChatPromptTemplate.from_template(
+"""
+Context:
+{context}
 
-    <context>
-    {context}
-    </context>
-
-    Question: {input}""")
+Question:
+{input}
+""")
 
 
 #**************************** Chaining Prompt and LLM ******************************
