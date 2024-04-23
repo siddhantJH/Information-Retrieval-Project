@@ -42,6 +42,12 @@ The system generates actionable insights for machine learning by evaluating user
 6. Machine learning models continuously update the query parameters based on user feedback.
 7. The system retrieves updated results based on the modified query and presents them to the user.
 
+## Evaluation Metrics Used
+1. Cosine Similarity
+2. BLEU Score
+3. Rouge Score
+4. Jaccard Similarity
+
 ## AUTHORS
 
 1. SIDDHANT JHA (MT23097)
