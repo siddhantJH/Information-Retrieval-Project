@@ -23,7 +23,7 @@ from langchain_google_genai import (
 
 #******************************** LLM MODEL ******************************************
 Gemini_pro_llm = ChatGoogleGenerativeAI(model="gemini-pro",
-                                        google_api_key="AIzaSyBSaMUOmN4usfGXD9PT7OmDcCFCa9WvBMc",
+                                        google_api_key=<API-KEY>,
                                         temperature=0.0,
                                         convert_system_message_to_human=True,
                                         safety_settings={
@@ -34,7 +34,7 @@ Gemini_pro_llm = ChatGoogleGenerativeAI(model="gemini-pro",
     })
 
 #******************************** LLM Embeddings *****************************
-GeminiEmbeddingModel = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_api_key="AIzaSyBSaMUOmN4usfGXD9PT7OmDcCFCa9WvBMc")
+GeminiEmbeddingModel = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_api_key=<API-KEY>)
 
 #******************************** Preparing data ********************************
 df = pd.read_csv('cricket_football_preprocessed.csv')
